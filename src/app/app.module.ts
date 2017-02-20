@@ -6,6 +6,9 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { FirebaseService } from '../providers/firebase-service'
+import { UserService } from '../providers/user-service'
+
 @NgModule({
   declarations: [
     MyApp,
@@ -25,6 +28,6 @@ import { TabsPage } from '../pages/tabs/tabs';
     HomePage,
     TabsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, FirebaseService, UserService]
 })
 export class AppModule {}
