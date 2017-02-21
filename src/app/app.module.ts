@@ -6,6 +6,10 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { LoginPage } from '../pages/users/login/login';
+import { SignupPage } from '../pages/users/signup/signup';
+import { ResetpwdPage } from '../pages/users/resetpwd/resetpwd';
+
 import { FirebaseService } from '../providers/firebase-service'
 import { UserService } from '../providers/user-service'
 
@@ -15,7 +19,11 @@ import { UserService } from '../providers/user-service'
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+
+    LoginPage,
+    SignupPage,
+    ResetpwdPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -26,7 +34,11 @@ import { UserService } from '../providers/user-service'
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+
+    LoginPage,
+    SignupPage,
+    ResetpwdPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, FirebaseService, UserService]
 })

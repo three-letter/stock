@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
 
 /*
   Generated class for the UserService provider.
@@ -15,7 +15,7 @@ export class UserService {
 
   constructor() {
 		this.auth = firebase.auth();
-		this.users = firebase.database().ref("/users");	
+		this.users = firebase.database().ref("users");	
   }
 
 	login(email: string, password: string): any {

@@ -21,6 +21,7 @@ import { UserService } from '../../../providers/user-service';
 export class LoginPage {
 	public loginForm;
 	public loading;
+  submitAttempt: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserService, public formBuilder: FormBuilder,public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
 		this.loginForm = formBuilder.group({
@@ -30,8 +31,11 @@ export class LoginPage {
 	}
 
 	login() {
+    this.submitAttempt = true;
+
 		if(!this.loginForm.valid) {
-			console.log("Login Form valid: " + this.loginForm.value);
+			console.log("Login Form valid: " + this.loginForm.value.email);
+			console.log("Login Form valid: " + this.loginForm.value.password);
 		} else {
 			let email = this.loginForm.value.email;
 			let password = this.loginForm.value.password;
