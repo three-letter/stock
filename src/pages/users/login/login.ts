@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { SignupPage } from '../signup/signup';
 import { ResetpwdPage } from '../resetpwd/resetpwd';
-import { HomePage } from '../../home/home';
+import { TabsPage } from '../../tabs/tabs';
 
 import { UserService } from '../../../providers/user-service';
 
@@ -34,14 +34,15 @@ export class LoginPage {
     this.submitAttempt = true;
 
 		if(!this.loginForm.valid) {
-			console.log("Login Form valid: " + this.loginForm.value.email);
-			console.log("Login Form valid: " + this.loginForm.value.password);
+			console.log("Login Form data invalid");
 		} else {
 			let email = this.loginForm.value.email;
 			let password = this.loginForm.value.password;
 
 			this.userService.login(email, password).then(user => {
-				this.navCtrl.setRoot(HomePage);
+				this.loading.dismiss().then(() => {
+          this.navCtrl.setRoot(TabsPage);
+        });
 			}, error => {
 				this.loading.dismiss().then(() => {
 					let alert = this.alertCtrl.create({
@@ -49,11 +50,11 @@ export class LoginPage {
 						buttons: [{text: "OK", role: "cancel"}]
 					});
 					alert.present();
-				});
+				}).catch(() => {});
 			});
 
 			this.loading = this.loadingCtrl.create({
-				dismissOnPageChange: true
+				//dismissOnPageChange: true
 			});
 
 			this.loading.present();

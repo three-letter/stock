@@ -7,12 +7,50 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>signup</ion-title>
+    <ion-title>Register</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <h2>Register</h2>
+  
+
+<form [formGroup]="registerForm" (submit)="register()" novalidate>
+
+	<ion-item>
+		<ion-label stacked>Email</ion-label>
+		<ion-input #email formControlName="email" placeholder="Your email address" [class.invalid]="!registerForm.controls.email.valid && submitAttempt"></ion-input>
+	</ion-item>
+	
+	<ion-item class="error-message" *ngIf="!registerForm.controls.email.valid && submitAttempt">
+		<p>Please enter a valid email.</p>
+	</ion-item>
+
+	<ion-item>
+		<ion-label stacked>Password</ion-label>
+		<ion-input #password formControlName="password" placeholder="Your password" [class.invalid]="!registerForm.controls.password.valid && submitAttempt"></ion-input>
+	</ion-item>
+	
+	<ion-item class="error-message" *ngIf="!registerForm.controls.password.valid && submitAttempt">
+		<p>Your password needs more than 6 characters.</p>
+	</ion-item>
+
+	<ion-item>
+		<ion-label stacked>NickName</ion-label>
+		<ion-input #nickname formControlName="nickname" placeholder="Your nickname" [class.invalid]="!registerForm.controls.nickname.valid && submitAttempt"></ion-input>
+	</ion-item>
+	
+	<ion-item class="error-message" *ngIf="!registerForm.controls.nickname.valid && submitAttempt">
+		<p>Your nickname needs more than 6 characters.</p>
+	</ion-item>
+
+
+	<button ion-button block type="submit">
+		Register
+	</button>
+
+</form>
 
 </ion-content>

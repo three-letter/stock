@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
+
+import { LoginPage } from '../users/login/login';
+
+import { UserService } from '../../providers/user-service';
 
 @Component({
   selector: 'page-contact',
@@ -8,8 +11,13 @@ import { NavController } from 'ionic-angular';
 })
 export class ContactPage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public userService: UserService) {
+  }
 
+  logout() {
+    this.userService.logout().then(() => {
+      this.navCtrl.setRoot(LoginPage);
+    }); 
   }
 
 }

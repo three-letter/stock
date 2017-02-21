@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any ; //= TabsPage;
+  rootPage: any = TabsPage;
 
   constructor(platform: Platform, firebaseService: FirebaseService) {
 		firebaseService.init();

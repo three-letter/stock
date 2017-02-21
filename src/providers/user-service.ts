@@ -22,10 +22,11 @@ export class UserService {
 		return this.auth.signInWithEmailAndPassword(email, password);
 	}
 
-	signup(email: string, password: string): any {
+	signup(email: string, password: string, nickname: string): any {
 		return this.auth.createUserWithEmailAndPassword(email, password).then((newUser) => {
 		this.users.child(newUser.uid).set({
-			email: email
+			email: email,
+      nickname: nickname
 		});
 		});
 	}
