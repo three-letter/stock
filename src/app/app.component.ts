@@ -5,9 +5,9 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/users/login/login';
 
-import { FirebaseService } from '../providers/firebase-service'
+import { WilddogService } from '../providers/wilddog-service'
 
-import * as firebase from 'firebase';
+import * as wilddog from 'wilddog';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,8 +15,8 @@ import * as firebase from 'firebase';
 export class MyApp {
   rootPage: any = TabsPage;
 
-  constructor(platform: Platform, firebaseService: FirebaseService) {
-		firebaseService.init();
+  constructor(platform: Platform, wilddogService: WilddogService) {
+		wilddogService.init();
     this.checkIsLogin();
 
     platform.ready().then(() => {
@@ -28,7 +28,7 @@ export class MyApp {
   }
 
   checkIsLogin() {
-    firebase.auth().onAuthStateChanged((user) => {
+    wilddog.auth().onAuthStateChanged((user) => {
       if(user) {
         this.rootPage = TabsPage;
       } else {

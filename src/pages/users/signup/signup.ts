@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { HomePage } from '../../home/home';
+import { TabsPage } from '../../tabs/tabs';
 
 import { UserService } from '../../../providers/user-service';
 
@@ -23,7 +23,7 @@ export class SignupPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserService, public formBuilder: FormBuilder,public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.registerForm = formBuilder.group({
-			email: ['', Validators.compose([Validators.minLength(6), Validators.required])],
+			phone: ['', Validators.compose([Validators.minLength(6), Validators.required])],
 			password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
       nickname: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
@@ -35,12 +35,14 @@ export class SignupPage {
     if(!this.registerForm.valid) {
 			console.log("Login Form data invalid");
     } else {
-      let email = this.registerForm.value.email;
+      let phone = this.registerForm.value.phone;
       let password = this.registerForm.value.password;
       let nickname = this.registerForm.value.nickname;
 
-      this.userService.signup(email, password, nickname).then(userService => {
-        this.navCtrl.setRoot(HomePage);
+      this.userService.signup(phone, password, nickname).then(userService => {
+				this.loading.dismiss().then(() => {
+          this.navCtrl.setRoot(TabsPage);
+        });
       }, error => {
 				this.loading.dismiss().then(() => {
 					let alert = this.alertCtrl.create({
@@ -52,7 +54,7 @@ export class SignupPage {
       });
 
 			this.loading = this.loadingCtrl.create({
-				dismissOnPageChange: true
+				//dismissOnPageChange: true
 			});
 
 			this.loading.present();

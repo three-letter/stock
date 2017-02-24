@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import * as firebase from 'firebase';
+import * as wilddog from 'wilddog';
 
 /*
   Generated class for the UserService provider.
@@ -14,25 +14,25 @@ export class UserService {
 	public users: any;
 
   constructor() {
-		this.auth = firebase.auth();
-		this.users = firebase.database().ref("users");	
+		this.auth = wilddog.auth();
+		this.users = wilddog.sync().ref("users");	
   }
 
-	login(email: string, password: string): any {
-		return this.auth.signInWithEmailAndPassword(email, password);
+	login(phone: string, password: string): any {
+		return this.auth.signInWithPhoneAndPassword(phone, password);
 	}
 
-	signup(email: string, password: string, nickname: string): any {
-		return this.auth.createUserWithEmailAndPassword(email, password).then((newUser) => {
+	signup(phone: string, password: string, nickname: string): any {
+		return this.auth.createUserWithPhoneAndPassword(phone, password).then((newUser) => {
 		this.users.child(newUser.uid).set({
-			email: email,
+			phone: phone,
       nickname: nickname
 		});
 		});
 	}
 
-	resetPwd(email: string): any {
-		return this.auth.sendPasswordResetEmail(email);
+	resetPwd(phone: string): any {
+		return this.auth.sendPasswordResetPhone(phone);
 	}
 
 	logout(): any {

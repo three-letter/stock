@@ -25,7 +25,7 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserService, public formBuilder: FormBuilder,public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
 		this.loginForm = formBuilder.group({
-			email: ['', Validators.compose([Validators.required])],
+			phone: ['', Validators.compose([Validators.required])],
 			password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
 		});
 	}
@@ -36,10 +36,10 @@ export class LoginPage {
 		if(!this.loginForm.valid) {
 			console.log("Login Form data invalid");
 		} else {
-			let email = this.loginForm.value.email;
+			let phone = this.loginForm.value.phone;
 			let password = this.loginForm.value.password;
 
-			this.userService.login(email, password).then(user => {
+			this.userService.login(phone, password).then(user => {
 				this.loading.dismiss().then(() => {
           this.navCtrl.setRoot(TabsPage);
         });

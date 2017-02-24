@@ -10,8 +10,8 @@ import { LoginPage } from '../pages/users/login/login';
 import { SignupPage } from '../pages/users/signup/signup';
 import { ResetpwdPage } from '../pages/users/resetpwd/resetpwd';
 
-import { FirebaseService } from '../providers/firebase-service'
 import { UserService } from '../providers/user-service'
+import { WilddogService } from '../providers/wilddog-service'
 
 @NgModule({
   declarations: [
@@ -40,6 +40,6 @@ import { UserService } from '../providers/user-service'
     SignupPage,
     ResetpwdPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, FirebaseService, UserService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, UserService, WilddogService]
 })
 export class AppModule {}

@@ -20,12 +20,12 @@ Ionic pages and navigation.
 <form [formGroup]="loginForm" (submit)="login()" novalidate>
 
 	<ion-item>
-		<ion-label stacked>Email</ion-label>
-		<ion-input #email formControlName="email" placeholder="Your email address" [class.invalid]="!loginForm.controls.email.valid && submitAttempt"></ion-input>
+		<ion-label stacked>Phone</ion-label>
+		<ion-input #phone formControlName="phone" placeholder="Your phone address" [class.invalid]="!loginForm.controls.phone.valid && submitAttempt"></ion-input>
 	</ion-item>
 	
-	<ion-item class="error-message" *ngIf="!loginForm.controls.email.valid && submitAttempt">
-		<p>Please enter a valid email.</p>
+	<ion-item class="error-message" *ngIf="!loginForm.controls.phone.valid && submitAttempt">
+		<p>Please enter a valid phone.</p>
 	</ion-item>
 
 	<ion-item>
