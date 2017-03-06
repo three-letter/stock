@@ -8,6 +8,8 @@ import { TabsPage } from '../../tabs/tabs';
 
 import { UserService } from '../../../providers/user-service';
 
+import * as wilddog from 'wilddog';
+
 /*
   Generated class for the Login page.
 
@@ -68,5 +70,18 @@ export class LoginPage {
 	resetPwd() {
 		this.navCtrl.push(ResetpwdPage);
 	}
+
+  loginByAuth(provider) {
+   console.log(provider);
+   var auth = this.userService.auth;
+   console.log(auth);
+   provider = new wilddog.auth.WeiboAuthProvider();
+   auth.signInWithRedirect(provider).then(() => {
+    console.log(auth.currentUser);
+    console.log("ok");
+   }).catch(error => {
+    console.log("error");
+  });
+  }
 
 }
