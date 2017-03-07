@@ -71,16 +71,24 @@ export class LoginPage {
 		this.navCtrl.push(ResetpwdPage);
 	}
 
-  loginByAuth(provider) {
-   console.log(provider);
-   var auth = this.userService.auth;
-   console.log(auth);
-   provider = new wilddog.auth.WeiboAuthProvider();
-   auth.signInWithRedirect(provider).then(() => {
-    console.log(auth.currentUser);
-    console.log("ok");
+  loginByAuth(providerId) {
+    var auth = this.userService.auth;
+    var users = this.userService.users;
+    console.log(auth);
+
+    var provider = new wilddog.auth.WeiboAuthProvider();
+    console.log(provider);
+    auth.signInWithRedirect(provider).then(() => {
+     var currentUser = auth.currentUser;
+     console.log(currentUser);
+
+     users.child(currentUser.uid).set({
+       displayName: currentUser.displayName,
+       photoURL: currentUser.photoURL,
+       providerId: currentUser.providerId
+     });
    }).catch(error => {
-    console.log("error");
+    console.log(error);
   });
   }
 
