@@ -74,41 +74,32 @@ export class LoginPage {
   loginByAuth(providerId) {
     var auth = this.userService.auth;
     var users = this.userService.users;
-    console.log(auth);
 
     var wb = (<any>window).YCWeibo;
     wb.checkClientInstalled(() => {
       wb.ssoLogin(function(args) {
-        console.log("Args userid: " + args.userid);
-        console.log("Args access token: " + args.access_token);
+        var credential = wilddog.auth.WeiboAuthProvider.credential(args.access_token, args.userid);
+        
+        wilddog.auth().signInWithCredential(credential).then((user) => {
+          users.child(user.uid).set({
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            providerId: user.providerId
+          });
+        }).catch((error) => {
+          console.log("Wilddog after weibo sso error: " + error);
+        });
       }, function(error) {
         console.log("Error: " + error);
       });
     }, () => {
-					let alert = this.alertCtrl.create({
-						message: 'Weibo Client Not Installed',
-						buttons: [{text: "OK", role: "cancel"}]
-					});
-					alert.present();
+      let alert = this.alertCtrl.create({
+				message: 'Weibo Client Not Installed',
+				buttons: [{text: "OK", role: "cancel"}]
+			});
+			alert.present();
     });
 
-
-/*
-    var provider = new wilddog.auth.WeiboAuthProvider();
-    console.log(provider);
-    auth.signInWithRedirect(provider).then(() => {
-     var currentUser = auth.currentUser;
-     console.log(currentUser);
-
-     users.child(currentUser.uid).set({
-       displayName: currentUser.displayName,
-       photoURL: currentUser.photoURL,
-       providerId: currentUser.providerId
-     });
-   }).catch(error => {
-    console.log(error);
-  });
-*/
   }
 
 }
