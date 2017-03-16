@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
+import { Device } from 'ionic-native';
+
 import { SignupPage } from '../signup/signup';
 import { ResetpwdPage } from '../resetpwd/resetpwd';
 import { TabsPage } from '../../tabs/tabs';
@@ -72,7 +74,33 @@ export class LoginPage {
 	}
 
   loginByAuth(providerId) {
+    let platform = Device.platform;
+
+    console.log("Platform: " + platform);
+    if(platform == null || platform == "browser")
+      this.loginByBrowser();
+    else
+      this.loginByDevice();
+  }
+
+  loginByBrowser() {
     var auth = this.userService.auth;
+    var users = this.userService.users;
+    
+    var provider = new wilddog.auth.WeiboAuthProvider();   
+    auth.signInWithPopup(provider).then(() => {    
+      var currentUser = auth.currentUser;   
+      users.child(currentUser.uid).set({   
+        displayName: currentUser.displayName,    
+        photoURL: currentUser.photoURL,   
+        providerId: currentUser.providerId   
+        });   
+      }).catch(error => {    
+        console.log(error);    
+      });
+  }
+
+  loginByDevice() {
     var users = this.userService.users;
 
     var wb = (<any>window).YCWeibo;
