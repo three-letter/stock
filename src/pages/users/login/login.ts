@@ -76,6 +76,24 @@ export class LoginPage {
     var users = this.userService.users;
     console.log(auth);
 
+    var wb = (<any>window).YCWeibo;
+    wb.checkClientInstalled(() => {
+      wb.ssoLogin(function(args) {
+        console.log("Args userid: " + args.userid);
+        console.log("Args access token: " + args.access_token);
+      }, function(error) {
+        console.log("Error: " + error);
+      });
+    }, () => {
+					let alert = this.alertCtrl.create({
+						message: 'Weibo Client Not Installed',
+						buttons: [{text: "OK", role: "cancel"}]
+					});
+					alert.present();
+    });
+
+
+/*
     var provider = new wilddog.auth.WeiboAuthProvider();
     console.log(provider);
     auth.signInWithRedirect(provider).then(() => {
@@ -90,6 +108,7 @@ export class LoginPage {
    }).catch(error => {
     console.log(error);
   });
+*/
   }
 
 }
