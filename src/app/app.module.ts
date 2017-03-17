@@ -6,12 +6,9 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
-import { LoginPage } from '../pages/users/login/login';
-import { SignupPage } from '../pages/users/signup/signup';
-import { ResetpwdPage } from '../pages/users/resetpwd/resetpwd';
+import { UserModule } from  '../modules/user.module';
 
-import { UserService } from '../providers/user-service'
-import { WilddogService } from '../providers/wilddog-service'
+import { WilddogService } from '../providers/wilddog-service';
 
 @NgModule({
   declarations: [
@@ -19,14 +16,11 @@ import { WilddogService } from '../providers/wilddog-service'
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage,
-
-    LoginPage,
-    SignupPage,
-    ResetpwdPage
+    TabsPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    UserModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,12 +28,8 @@ import { WilddogService } from '../providers/wilddog-service'
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage,
-
-    LoginPage,
-    SignupPage,
-    ResetpwdPage
+    TabsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, UserService, WilddogService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, WilddogService]
 })
 export class AppModule {}

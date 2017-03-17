@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, LoadingController, AlertController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { Device } from 'ionic-native';
@@ -27,7 +27,15 @@ export class LoginPage {
 	public loading;
   submitAttempt: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public userService: UserService, public formBuilder: FormBuilder,public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public userService: UserService, 
+    public formBuilder: FormBuilder,
+    public alertCtrl: AlertController, 
+    public loadingCtrl: LoadingController,
+    public viewCtrl: ViewController
+  ) {
 		this.loginForm = formBuilder.group({
 			phone: ['', Validators.compose([Validators.required])],
 			password: ['', Validators.compose([Validators.minLength(6), Validators.required])]

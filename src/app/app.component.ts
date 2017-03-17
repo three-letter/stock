@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, Events } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
-import { LoginPage } from '../pages/users/login/login';
 
 import { WilddogService } from '../providers/wilddog-service'
-
-import * as wilddog from 'wilddog';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,9 +12,14 @@ import * as wilddog from 'wilddog';
 export class MyApp {
   rootPage: any = TabsPage;
 
-  constructor(platform: Platform, wilddogService: WilddogService) {
+  constructor(
+    public platform: Platform, 
+    public wilddogService: WilddogService,
+    public events: Events
+  ) {
 		wilddogService.init();
-    this.checkIsLogin();
+    
+    this.subscribeEvents();
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -27,13 +29,9 @@ export class MyApp {
     });
   }
 
-  checkIsLogin() {
-    wilddog.auth().onAuthStateChanged((user) => {
-      if(user) {
-        this.rootPage = TabsPage;
-      } else {
-        this.rootPage = LoginPage;
-      }
+  subscribeEvents() {
+    this.events.subscribe("app:root", () => {
+      this.rootPage = TabsPage;
     });
   }
 
