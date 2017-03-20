@@ -154,6 +154,9 @@ export class LoginPage {
             photoURL: user.photoURL,
             providerId: user.providerId
           });
+
+        this.viewCtrl.dismiss().then();
+        
         }).catch((error) => {
           console.log("Wilddog after weibo sso error: " + error);
         });
