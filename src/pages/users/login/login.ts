@@ -133,7 +133,7 @@ export class LoginPage {
         providerId: currentUser.providerId   
         });
 
-      this.viewCtrl.dismiss().then();
+      this.viewCtrl.dismiss();  
 
       }).catch(error => {    
         console.log(error);    
@@ -154,15 +154,17 @@ export class LoginPage {
             photoURL: user.photoURL,
             providerId: user.providerId
           });
-
-        this.viewCtrl.dismiss().then();
-        
+  
         }).catch((error) => {
           console.log("Wilddog after weibo sso error: " + error);
         });
       }, function(error) {
         console.log("Error: " + error);
       });
+
+      console.log("After weibo auth: " + this.viewCtrl);
+      this.viewCtrl.dismiss();  
+        
     }, () => {
       let alert = this.alertCtrl.create({
 				message: 'Weibo Client Not Installed',
