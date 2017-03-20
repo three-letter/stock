@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
-import { Platform, Events, ModalController } from 'ionic-angular';
+import { Platform, Events, ModalController, IonicModule } from 'ionic-angular';
 
 import { LoginPage } from '../pages/users/login/login';
-import { SignupPage } from '../pages/users/signup/signup';
+
+import { MyPage } from '../pages/users/my/my';
 
 import { UserService } from '../providers/user-service';
-
-import * as wilddog from 'wilddog';
 
 @NgModule({
   declarations: [
     LoginPage,
-    SignupPage
+    MyPage
   ],
   imports: [
+    IonicModule
   ],
   entryComponents: [
     LoginPage,
-    SignupPage
+    MyPage
   ],
   providers: [UserService]
 })
@@ -27,12 +27,13 @@ export class UserModule {
   constructor(
     public platform: Platform, 
     public events: Events,
+    public userService: UserService,
     public modalCtrl: ModalController
   ) {
+    userService.checkIsLogin();
     this.subscribeEvents();
 
     platform.ready().then(() => {
-      this.checkIsLogin();
     });
   }
 
@@ -43,14 +44,5 @@ export class UserModule {
     });
   }
 
-  checkIsLogin() {
-    wilddog.auth().onAuthStateChanged((user) => {
-      if(user) {
-        this.events.publish("app:root");
-      } else {
-        this.events.publish("app:gotoLogin");
-      }
-    });
-  }
 
 }

@@ -4,8 +4,6 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
-import { WilddogService } from '../providers/wilddog-service'
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -14,11 +12,8 @@ export class MyApp {
 
   constructor(
     public platform: Platform, 
-    public wilddogService: WilddogService,
     public events: Events
   ) {
-		wilddogService.init();
-    
     this.subscribeEvents();
 
     platform.ready().then(() => {

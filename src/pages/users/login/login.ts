@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, LoadingController, AlertController } from 'ionic-angular';
-import { FormBuilder, Validators } from '@angular/forms';
 
 import { Device } from 'ionic-native';
 
@@ -27,33 +26,38 @@ export class LoginPage {
 	public loading;
   submitAttempt: boolean = false;
 
+  logInModel: {phone?: string, password?: string} = {};
+  signUpModel: {displayName?: string, phone?: string, password?: string} = {};
+  currentModal: string = 'LogIn';
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public userService: UserService, 
-    public formBuilder: FormBuilder,
     public alertCtrl: AlertController, 
     public loadingCtrl: LoadingController,
     public viewCtrl: ViewController
   ) {
-		this.loginForm = formBuilder.group({
-			phone: ['', Validators.compose([Validators.required])],
-			password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
-		});
 	}
 
-	login() {
-    this.submitAttempt = true;
+  cancelModal() {
+    this.viewCtrl.dismiss();
+  }
 
-		if(!this.loginForm.valid) {
-			console.log("Login Form data invalid");
-		} else {
-			let phone = this.loginForm.value.phone;
-			let password = this.loginForm.value.password;
+  logInHandler(ngForm) {
+    let phone = this.logInModel.phone;
+    let password = this.logInModel.password;
+
+    if(ngForm.valid) {
+      // start loading
+			this.loading = this.loadingCtrl.create({
+				//dismissOnPageChange: true
+			});
+			this.loading.present();
 
 			this.userService.login(phone, password).then(user => {
 				this.loading.dismiss().then(() => {
-          this.navCtrl.setRoot(TabsPage);
+          this.viewCtrl.dismiss();  
         });
 			}, error => {
 				this.loading.dismiss().then(() => {
@@ -64,14 +68,39 @@ export class LoginPage {
 					alert.present();
 				}).catch(() => {});
 			});
+    }
 
+  }
+
+  signUpHandler(ngForm) {
+    let displayName = this.signUpModel.displayName;
+    let phone = this.signUpModel.phone;
+    let password = this.signUpModel.password;
+
+    if(ngForm.valid) {
+      // start loading
 			this.loading = this.loadingCtrl.create({
 				//dismissOnPageChange: true
 			});
-
 			this.loading.present();
-		}	
-	}
+
+			this.userService.signup(phone, password, displayName).then(user => {
+				this.loading.dismiss().then(() => {
+          this.viewCtrl.dismiss();  
+        });
+			}, error => {
+				this.loading.dismiss().then(() => {
+					let alert = this.alertCtrl.create({
+						message: error.message,
+						buttons: [{text: "OK", role: "cancel"}]
+					});
+					alert.present();
+				}).catch(() => {});
+			});
+    }
+
+
+  }
 
 	signup() {
 		this.navCtrl.push(SignupPage);
@@ -102,7 +131,10 @@ export class LoginPage {
         displayName: currentUser.displayName,    
         photoURL: currentUser.photoURL,   
         providerId: currentUser.providerId   
-        });   
+        });
+
+      this.viewCtrl.dismiss().then();
+
       }).catch(error => {    
         console.log(error);    
       });

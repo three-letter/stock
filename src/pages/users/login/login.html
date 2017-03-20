@@ -6,63 +6,122 @@ Ionic pages and navigation.
 -->
 <ion-header>
 
-<ion-navbar>
-</ion-navbar>
+  <ion-navbar>
+
+    <ion-buttons start>
+
+      <button color="grey" ion-button icon-only (click)="cancelModal()">取消</button>
+
+    </ion-buttons>
+
+  </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
-<img src="http://placehold.it/300x100">
+<!-- log in -->
 
-<form [formGroup]="loginForm" (submit)="login()" novalidate>
+  <div [hidden]="currentModal === 'SignUp'">
+    <div padding-bottom></div>
+    <h3 text-center>登陆</h3>
 
-	<ion-item>
-		<ion-label stacked>Phone</ion-label>
-		<ion-input #phone formControlName="phone" placeholder="Your phone address" [class.invalid]="!loginForm.controls.phone.valid && submitAttempt"></ion-input>
-	</ion-item>
-	
-	<ion-item class="error-message" *ngIf="!loginForm.controls.phone.valid && submitAttempt">
-		<p>Please enter a valid phone.</p>
-	</ion-item>
+    <form #logInForm="ngForm" (ngSubmit)="logInHandler(logInForm)">
+      <ion-list>
+        <ion-item>
+          <ion-label primary>手机号</ion-label>
+          <ion-input [(ngModel)]="logInModel.phone" name="phone" type="number" required ngModel pattern="[0-9]{11}"></ion-input>
+        </ion-item>
 
-	<ion-item>
-		<ion-label stacked>Password</ion-label>
-		<ion-input #password formControlName="password" placeholder="Your password" [class.invalid]="!loginForm.controls.password.valid && submitAttempt"></ion-input>
-	</ion-item>
-	
-	<ion-item class="error-message" *ngIf="!loginForm.controls.password.valid && submitAttempt">
-		<p>Your password needs more than 6 characters.</p>
-	</ion-item>
+        <ion-item>
+          <ion-label primary>密码</ion-label>
+          <ion-input [(ngModel)]="logInModel.password" name="password" type="password" required ngModel minlength="6"></ion-input>
+        </ion-item>
+      </ion-list>
 
-	<button ion-button block type="submit">
-		Login
-	</button>
+      <div class="session-bottom">
+        <button color="grey" ion-button dark clear small disabled type="button">忘记密码</button>
 
-</form>
+        <div class="pull-right">
+          <button color="grey" ion-button dark clear small (click)="currentModal = 'SignUp'" type="button">注册</button>
+        </div>
+      </div>
 
-<ul class="fa-ul">
-  <li class="fa-stack fa-2x pull-left" (click)="loginByAuth('qq')">
-    <i class="fa fa-circle fa-stack-2x"></i>
-    <i class="fa fa-qq fa-stack-1x fa-inverse" aria-hidden="true"></i>
-  </li>
-  <li class="fa-stack fa-2x pull-left"  (click)="loginByAuth('weixin')">
-    <i class="fa fa-circle fa-stack-2x"></i>
-    <i class="fa fa-weixin fa-stack-1x fa-inverse" aria-hidden="true"></i>
-  </li>
-  <li class="fa-stack fa-2x pull-left"  (click)="loginByAuth('weibo')">
-    <i class="fa fa-circle fa-stack-2x"></i>
-    <i class="fa fa-weibo fa-stack-1x fa-inverse" aria-hidden="true"></i>
-  </li>
-</ul>
+      <div padding-left padding-right>
+        <button color="grey" ion-button  block [disabled]="!logInForm.valid" type="submit">登陆</button>
+      </div>
 
-<button ion-button block clear (click)="signup()">
-	Create a new account
-</button>
+    </form>
 
-<button ion-button block clear (click)="resetPwd()">
-	I forgot my password
-</button>
+  </div>
+
+<!-- sign up -->
+
+  <div [hidden]="currentModal === 'LogIn'">
+    <div padding-bottom></div>
+    <h3 text-center>注册</h3>
+
+    <form #signUpForm="ngForm" (ngSubmit)="signUpHandler(signUpForm)">
+      <ion-list>
+        <ion-item>
+          <ion-label primary>昵称</ion-label>
+          <ion-input [(ngModel)]="signUpModel.displayName" name="displayName" type="text" required ngModel minlength="2"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label primary>手机号</ion-label>
+          <ion-input [(ngModel)]="signUpModel.phone" name="phone" type="number" required ngModel pattern="[0-9]{11}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label primary>密码</ion-label>
+          <ion-input [(ngModel)]="signUpModel.password" name="password" type="password" required ngModel minlength="6"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <div class="session-bottom">
+
+        <div class="pull-right">
+          <button color="grey" ion-button dark clear small (click)="currentModal = 'LogIn'" type="button">登陆</button>
+        </div>
+      </div>
+
+      <div padding-left padding-right>
+        <button color="grey" ion-button  block [disabled]="!signUpForm.valid" type="submit">注册</button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div padding-bottom></div>
+
+  <ion-row>
+    <ion-col width-15></ion-col>
+    
+    <ion-col>
+      <div class="fa-stack fa-2x pull-center" (click)="loginByAuth('qq')">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-weibo fa-stack-1x fa-inverse" aria-hidden="true"></i>
+       </div>
+    </ion-col>
+
+    <ion-col>
+      <div class="fa-stack fa-2x pull-center" (click)="loginByAuth('qq')">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-weixin fa-stack-1x fa-inverse" aria-hidden="true"></i>
+       </div>
+    </ion-col>
+
+    <ion-col>
+      <div class="fa-stack fa-2x" (click)="loginByAuth('qq')">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-qq fa-stack-1x fa-inverse" aria-hidden="true"></i>
+       </div>
+    </ion-col>
+
+    <ion-col width-15></ion-col>
+  </ion-row>
 
 </ion-content>
