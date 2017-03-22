@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { WilddogService } from '../providers/wilddog-service';
 
@@ -16,11 +17,15 @@ export class UserService {
 	public auth: any;
 	public users: any;
 
+  USER_INFO: string = 'user_info';
+  userInfo: any;
+
   isAuth: boolean = false;
 
   constructor(
     public wilddogService: WilddogService,
-    public events: Events
+    public events: Events,
+    public storage: Storage
   ) {
 		wilddogService.init();
 		
@@ -34,9 +39,30 @@ export class UserService {
     this.auth.onAuthStateChanged((user) => {
       if(user) {
         this.isAuth = true;
+        this.fetchUser();
       } else {
         this.isAuth = false;
       }
+    });
+  }
+
+  fetchUser() {
+    let userProfile = {};
+    let uid = this.auth.currentUser.uid;
+    this.users.child(uid).on("value", (snapshot) => {
+      let data = snapshot.val();
+      userProfile = JSON.stringify(data);
+      // storage user info
+      this.userInfo = userProfile;
+      this.storage.set(this.USER_INFO, this.userInfo);
+    });
+
+  }
+
+  getUser() {
+    return this.storage.get(this.USER_INFO).then(value => {
+      this.userInfo = JSON.parse(value);
+      return this.userInfo;
     });
   }
 

@@ -136,7 +136,19 @@ export class LoginPage {
       this.viewCtrl.dismiss();  
 
       }).catch(error => {    
-        console.log(error);    
+        if(error.code == "TRANSPORT_UNAVAILABLE") {
+          auth.signInWithRedirect(provider).then(() => {    
+            var currentUser = auth.currentUser;   
+            users.child(currentUser.uid).set({   
+              displayName: currentUser.displayName,    
+              photoURL: currentUser.photoURL,   
+              providerId: currentUser.providerId   
+            });
+
+            this.viewCtrl.dismiss();  
+          });
+        }
+        console.log(error.code);    
       });
   }
 

@@ -1,0 +1,51 @@
+<!--
+  Generated template for the MyProfile page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list padding-top>
+    
+    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'photoURL'}">
+      <ion-label>头像</ion-label>
+      <ion-avatar item-right>
+        <img src="{{ userService.auth.currentUser.photoURL }}">
+      </ion-avatar>
+    </button>
+
+    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'displayName'}">
+      <ion-label>昵称</ion-label>
+      <ion-avatar item-right>
+        <img src="{{ userService.auth.currentUser.displayName }}">
+      </ion-avatar>
+    </button>
+
+    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'gender'}">
+      <ion-label>性别</ion-label>
+      <ion-avatar item-right>
+        <img src="{{ userService.auth.currentUser.gender }}">
+      </ion-avatar>
+    </button>
+
+    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'bio'}">
+      <ion-label>个性签名</ion-label>
+      <ion-avatar item-right>
+        <img src="{{ userService.auth.currentUser.bio }}">
+      </ion-avatar>
+    </button>
+
+  </ion-list>
+
+
+</ion-content>
