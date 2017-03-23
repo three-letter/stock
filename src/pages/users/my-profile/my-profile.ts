@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { MyProfileUpdatePage } from '../my-profile-update/my-profile-update';
+
+import { UserService } from '../../../providers/user-service';
+
+
 /*
   Generated class for the MyProfile page.
 
@@ -13,10 +18,14 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class MyProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  myProfileUpdatePage = MyProfileUpdatePage;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MyProfilePage');
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public userService: UserService
+  ) {
   }
+
 
 }

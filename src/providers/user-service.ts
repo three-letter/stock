@@ -47,16 +47,20 @@ export class UserService {
   }
 
   fetchUser() {
-    let userProfile = {};
     let uid = this.auth.currentUser.uid;
     this.users.child(uid).on("value", (snapshot) => {
-      let data = snapshot.val();
-      userProfile = JSON.stringify(data);
+      let data = snapshot.exportVal();
       // storage user info
-      this.userInfo = userProfile;
+      this.userInfo = data;
       this.storage.set(this.USER_INFO, this.userInfo);
     });
+  }
 
+  updateUser(params) {
+    let uid = this.auth.currentUser.uid;
+    this.users.child(uid).update(params).then(() => {
+      this.fetchUser();
+    });
   }
 
   getUser() {

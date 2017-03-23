@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { TabsPage } from '../../tabs/tabs';
+import { MyProfilePage } from '../my-profile/my-profile';
 
 import { UserService } from '../../../providers/user-service';
 
@@ -26,7 +26,8 @@ export class MyPage {
   gotoMyProfile() {
 
     if(this.userService.authOrLogin()) {
-      this.navCtrl.push(TabsPage);
+      if(this.userService.userInfo.providerId == null)
+        this.navCtrl.push(MyProfilePage);
     }
   }
   

@@ -17,32 +17,32 @@
 
   <ion-list padding-top>
     
-    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'photoURL'}">
+    <button ion-item [navPush]="myProfileUpdatePage" [navParams]="{item: 'photoURL'}">
       <ion-label>头像</ion-label>
       <ion-avatar item-right>
-        <img src="{{ userService.auth.currentUser.photoURL }}">
+        <img src="{{ userService.userInfo.photoURL }}">
       </ion-avatar>
     </button>
 
-    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'displayName'}">
+    <button ion-item [navPush]="myProfileUpdatePage" [navParams]="{item: 'displayName'}">
       <ion-label>昵称</ion-label>
-      <ion-avatar item-right>
-        <img src="{{ userService.auth.currentUser.displayName }}">
-      </ion-avatar>
+      <ion-note item-right>
+        {{ userService.userInfo.displayName }}
+      </ion-note>
     </button>
 
-    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'gender'}">
+    <button ion-item [navPush]="myProfileUpdatePage" [navParams]="{item: 'gender'}">
       <ion-label>性别</ion-label>
-      <ion-avatar item-right>
-        <img src="{{ userService.auth.currentUser.gender }}">
-      </ion-avatar>
+      <ion-note item-right>
+        {{ userService.userInfo.gender == 1 ? '男' : '女' }}
+      </ion-note>
     </button>
 
-    <button ion-item [navPush]="MeProfileUpdatePage" [navParams]="{item: 'bio'}">
+    <button ion-item [navPush]="myProfileUpdatePage" [navParams]="{item: 'bio'}">
       <ion-label>个性签名</ion-label>
-      <ion-avatar item-right>
-        <img src="{{ userService.auth.currentUser.bio }}">
-      </ion-avatar>
+      <ion-note item-right>
+        {{ userService.userInfo.bio }}
+      </ion-note>
     </button>
 
   </ion-list>
