@@ -4,5 +4,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+
+  <ion-slides autoplay="3000" loop="true" speed="1000"> 
+      <ion-slide *ngFor="let n of [1, 2, 3]">
+        <img src="./assets/slide/slide-{{n}}.jpg">
+      </ion-slide>
+    </ion-slides>
+
 </ion-content>
