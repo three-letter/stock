@@ -40,66 +40,23 @@
   </ion-list>
 
   <ion-list  padding-top radio-group [(ngModel)]="userInfo.photoURL" (ngModelChange)="isUpdated = 'photoURL'" [hidden]="item !== 'photoURL'">
-  <ion-row>
-    <ion-item  width-25>
-      <ion-avatar item-center>
-        <img src="./assets/avatar/boy.png">
-        <ion-radio name="photoURL" checked="true" value="./assets/avatar/boy.png"></ion-radio>
-      </ion-avatar>
-    </ion-item>
+    <ion-row>
+      <ion-item width-13 *ngFor="let n of [1,2,3,4,5,6,7]" >
+        <ion-avatar item-left>
+          <img src="./assets/avatar/boy-{{n}}.png">
+          <ion-radio name="photoURL" checked="true" value="./assets/avatar/boy-{{n}}.png"></ion-radio>
+        </ion-avatar>
+      </ion-item>
+    </ion-row>
 
-    <ion-item width-25>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/boy-1.png"></ion-radio>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/boy-1.png">
-      </ion-avatar>
-    </ion-item>
-
-    <ion-item width-25>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/boy-2.png"></ion-radio>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/boy-2.png">
-      </ion-avatar>
-    </ion-item>
-
-    <ion-item width-25>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/boy-3.png"></ion-radio>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/boy-3.png">
-      </ion-avatar>
-    </ion-item>
-
-  </ion-row>
-
-  <ion-row>
-    <ion-item width-25>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/girl.png">
-      </ion-avatar>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/girl.png"></ion-radio>
-    </ion-item>
-
-    <ion-item width-25>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/girl-1.png">
-      </ion-avatar>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/girl-1.png"></ion-radio>
-    </ion-item>
-
-    <ion-item width-25>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/girl-2.png">
-      </ion-avatar>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/girl-2.png"></ion-radio>
-    </ion-item>
-
-    <ion-item width-25>
-      <ion-avatar item-left>
-        <img src="./assets/avatar/girl-3.png">
-      </ion-avatar>
-      <ion-radio name="photoURL" checked="true" value="./assets/avatar/girl-3.png"></ion-radio>
-    </ion-item>
-  </ion-row>
+    <ion-row>
+      <ion-item width-13 *ngFor="let n of [1,2,3,4,5,6,7]" >
+        <ion-avatar item-left>
+          <img src="./assets/avatar/girl-{{n}}.png">
+          <ion-radio name="photoURL" checked="true" value="./assets/avatar/girl-{{n}}.png"></ion-radio>
+        </ion-avatar>
+      </ion-item>
+    </ion-row>
 
   </ion-list>
 
