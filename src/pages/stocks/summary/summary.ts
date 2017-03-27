@@ -1,5 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { Slides, NavController, NavParams } from 'ionic-angular';
+import { Slides, NavController, NavParams, ModalController } from 'ionic-angular';
+
+import { ForecastCreatePage } from '../forecast-create/forecast-create';
+
+
+import { UserService } from '../../../providers/user-service';
 
 /*
   Generated class for the Summary page.
@@ -16,12 +21,21 @@ export class SummaryPage {
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    public userService: UserService
   ) {
   }
 
   ionViewDidEnter() {
     this.slides.startAutoplay();
+  }
+
+  presentForecastCreateModal() {
+    if(this.userService.authOrLogin()) {
+      let forecastCreateModal = this.modalCtrl.create(ForecastCreatePage);
+      forecastCreateModal.present();
+    }
   }
 
 }

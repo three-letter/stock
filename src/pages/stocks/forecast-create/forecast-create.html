@@ -1,0 +1,67 @@
+<!--
+  Generated template for the ForecastCreate page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button color="grey" ion-button (click)="dismiss()">
+        取消
+      </button>
+    </ion-buttons>
+
+    <ion-title>股票预测</ion-title>
+
+    <ion-buttons end>
+      <button color="grey" ion-button (click)="forecastCreateHandler(forecastCreateForm)">
+        发布
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list>
+    <form #forecastCreateForm="ngForm" novalidate> 
+
+      <ion-item>
+        <ion-input required [(ngModel)]="forecast.stockCode" name="stockCode" type="text" placeholder="股票名、拼音或代码" (input)="findStocks($event)"></ion-input>
+      </ion-item>
+
+      <ion-list>
+        <ion-item *ngFor="let item of _stocks">
+          <ion-label>{{item.codeS}}</ion-label>
+          <ion-label>{{item.name}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+        <ion-label class="label-md">今日走势</ion-label>
+        <ion-select required [(ngModel)]="forecast.stockTrend" name="stockTrend">
+          <ion-option value="+">涨</ion-option>
+          <ion-option value="-">跌</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+      <ion-label color="{{forecast.stockTrend == null ? 'gray' : (forecast.stockTrend == '+' ? 'danger' : 'secondary')}}">{{ forecast.stockRatio == null ?  0.0 : forecast.stockRatio / 100 }}%</ion-label>
+        <ion-range required [(ngModel)]="forecast.stockRatio" name="stockRatio" type="number" placeholder="今日涨幅" [min]=0 [max]=1000 color="{{forecast.stockTrend == null ? 'gray' : (forecast.stockTrend == '+' ? 'danger' : 'secondary')}}"></ion-range>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea required [(ngModel)]="forecast.reason" name="reason" rows="6" placeholder="简述该预测的原因...">
+        </ion-textarea>
+      </ion-item>
+
+    </form>
+  </ion-list>
+
+
+</ion-content>
