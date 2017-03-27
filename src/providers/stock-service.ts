@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { WilddogService } from './wilddog-service';
+
 /*
   Generated class for the StockService provider.
 
@@ -10,11 +12,15 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class StockService {
-	public stockInfos: any;
+	public forecasts: any; 
+
+  public stockInfos: any;
 
   constructor(
+    public wilddogService: WilddogService,
 		private http: Http
 	) {
+      this.forecasts = wilddogService.db.ref("forecasts");
   }
 
 	findStocks(q) {

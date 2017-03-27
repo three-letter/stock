@@ -1,0 +1,33 @@
+<!--
+  Generated template for the Summary page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>每日预测</ion-title>
+  
+    <ion-buttons end>
+      <button ion-button icon-only color="grey" (click)="startForecast()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+    </ion-buttons>
+  
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-slides #summarySlides pager autoplay="3000" loop="true" speed="1000"> 
+    <ion-slide *ngFor="let n of [1, 2, 3]">
+      <img src="./assets/slide/slide-{{n}}.jpg">
+    </ion-slide>
+  </ion-slides>
+
+
+
+</ion-content>

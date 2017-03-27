@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { WilddogService } from '../providers/wilddog-service';
-
-import * as wilddog from 'wilddog';
+import { WilddogService } from './wilddog-service';
 
 /*
   Generated class for the UserService provider.
@@ -23,14 +21,12 @@ export class UserService {
   isAuth: boolean = false;
 
   constructor(
-    public wilddogService: WilddogService,
     public events: Events,
+    public wilddogService: WilddogService,
     public storage: Storage
   ) {
-		wilddogService.init();
-		
-    this.auth = wilddog.auth();
-		this.users = wilddog.sync().ref("users");	
+    this.auth = wilddogService.auth;
+		this.users = wilddogService.db.ref("users");	
     
     this.checkIsLogin();
   }

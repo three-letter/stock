@@ -10,19 +10,17 @@ import * as wilddog from 'wilddog';
 */
 @Injectable()
 export class WilddogService {
+  public auth: any;
   public db: any;
 
   constructor() {
-  }
-
-  init() {
     const wdConfig = {
       authDomain: "stock-forecast.wilddog.com",
       syncURL: "https://stock-forecast.wilddogio.com"
     }
 
     wilddog.initializeApp(wdConfig);
-
+    this.auth = wilddog.auth();
     this.db = wilddog.sync().ref("/");
   }
 
