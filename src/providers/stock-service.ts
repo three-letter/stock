@@ -38,12 +38,12 @@ export class StockService {
 					  if(val) {
 						  let line = val.split('~');
 						  if(line.length > 3) {
-								console.log("find stocks:"+ line[2]);
 							  result.push({
 								  city:line[0],
 								  codeS:line[1],
 								  name:line[2],
-								  code:line[0]+line[1]
+								  code:line[0]+line[1],
+									codeName:line[1]+' '+line[2]
 							  });
 						  }
 					  }

@@ -16,7 +16,7 @@
     <ion-title>股票预测</ion-title>
 
     <ion-buttons end>
-      <button color="grey" ion-button (click)="forecastCreateHandler(forecastCreateForm)">
+      <button color="grey" ion-button (click)="forecastCreateHandler(forecastCreateForm)" [disabled]="!forecastCreateForm.valid">
         发布
       </button>
     </ion-buttons>
@@ -32,11 +32,11 @@
     <form #forecastCreateForm="ngForm" novalidate> 
 
       <ion-item>
-        <ion-input required [(ngModel)]="forecast.stockCode" name="stockCode" type="text" placeholder="股票名、拼音或代码" (input)="findStocks($event)"></ion-input>
+        <ion-input required [(ngModel)]="forecast.stockCodeName" name="stockCodeName" type="text" placeholder="股票名、拼音或代码" (input)="findStocks($event)" clearInput></ion-input>
       </ion-item>
 
       <ion-list>
-        <ion-item *ngFor="let item of _stocks">
+        <ion-item *ngFor="let item of _stocks" (click)="selectStock(item)" >
           <ion-label>{{item.codeS}}</ion-label>
           <ion-label>{{item.name}}</ion-label>
         </ion-item>
