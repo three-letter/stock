@@ -18,3 +18,16 @@
 .label-md {
   color: #999;
 }
+
+.hc-toast {
+  .toast-wrapper  {
+    right: 0px !important;
+    left: 0px !important;
+    width: 100%;
+    text-align: center;
+
+    .toast-container {
+      background-color: color($colors, gray) !important;
+    }
+  }
+}

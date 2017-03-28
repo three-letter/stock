@@ -3,6 +3,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { UserService } from '../../../providers/user-service';
 import { StockService } from '../../../providers/stock-service';
+import { UtilityService } from '../../../providers/utility-service';
 
 /*
   Generated class for the ForecastCreate page.
@@ -25,7 +26,8 @@ export class ForecastCreatePage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public userService: UserService,
-    public stockService: StockService
+    public stockService: StockService,
+    public utilityService: UtilityService
   ) {
     }
 
@@ -35,12 +37,17 @@ export class ForecastCreatePage {
 
 	forecastCreateHandler(ngForm) {
 		if(this.userService.authOrLogin()) {
+      this.utilityService.presentLoading();
+
 			this.forecast.uid = this.userService.auth.currentUser.uid;
 			this.stockService.forecasts.push(this.forecast).then((newForecast) => {
-				console.log("forecast create success:" + newForecast.key());
+        this.utilityService.dismissLoading();
+        this.utilityService.presentToast("今日预测成功!");
 				this.viewCtrl.dismiss();
 			}).catch(error => {
-				console.log("forecast create fail:" + error.code);
+        this.utilityService.dismissLoading();
+        this.utilityService.presentToast("系统繁忙，请稍后再试...");
+				this.viewCtrl.dismiss();
 			});
 		} 
 	}

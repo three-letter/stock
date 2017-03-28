@@ -10,6 +10,7 @@ import { UserModule } from  '../modules/user.module';
 import { StockModule } from  '../modules/stock.module';
 
 import { WilddogService } from '../providers/wilddog-service';
+import { UtilityService } from '../providers/utility-service';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,6 @@ import { WilddogService } from '../providers/wilddog-service';
     AboutPage,
     TabsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, WilddogService, Storage]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, WilddogService, Storage, UtilityService]
 })
 export class AppModule {}
