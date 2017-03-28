@@ -16,7 +16,7 @@ export class UserService {
 	public users: any;
 
   USER_INFO: string = 'user_info';
-  userInfo: any;
+  userInfo: { photoURL?: string, displayName?: string } = {};
 
   isAuth: boolean = false;
 

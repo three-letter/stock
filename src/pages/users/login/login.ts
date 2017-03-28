@@ -41,7 +41,7 @@ export class LoginPage {
 	}
 
   cancelModal() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss().catch(() => {});
   }
 
   logInHandler(ngForm) {
@@ -56,7 +56,8 @@ export class LoginPage {
 			this.loading.present();
 
 			this.userService.login(phone, password).then(user => {
-				this.loading.dismiss().then(() => {
+				this.userService.checkIsLogin();
+        this.loading.dismiss().then(() => {
           this.viewCtrl.dismiss();  
         });
 			}, error => {
@@ -126,26 +127,49 @@ export class LoginPage {
     
     var provider = new wilddog.auth.WeiboAuthProvider();   
     auth.signInWithPopup(provider).then(() => {    
-      var currentUser = auth.currentUser;   
-      users.child(currentUser.uid).set({   
-        displayName: currentUser.displayName,    
-        photoURL: currentUser.photoURL,   
-        providerId: currentUser.providerId   
-        });
+      var currentUser = auth.currentUser;  
 
-      this.viewCtrl.dismiss();  
-
-      }).catch(error => {    
+      let currentUserSync = users.child(currentUser.uid);
+      currentUserSync.on("value", snapshot => {
+        if(!snapshot.exists()) {
+          currentUserSync.set({   
+            displayName: currentUser.displayName,    
+            photoURL: currentUser.photoURL,   
+            providerId: currentUser.providerId   
+          }).then(() => {
+            this.userService.checkIsLogin();
+            this.cancelModal();
+          }).catch(error => {
+            console.log("provider first login:" + error);
+          });
+        } else {
+          this.userService.checkIsLogin();
+          this.cancelModal();
+        }
+      });
+    }).catch(error => {    
         if(error.code == "TRANSPORT_UNAVAILABLE") {
           auth.signInWithRedirect(provider).then(() => {    
             var currentUser = auth.currentUser;   
-            users.child(currentUser.uid).set({   
-              displayName: currentUser.displayName,    
-              photoURL: currentUser.photoURL,   
-              providerId: currentUser.providerId   
+            
+            let currentUserSync = users.child(currentUser.uid);
+            currentUserSync.on("value", snapshot => {
+              if(!snapshot.exists()) {
+                currentUserSync.set({   
+                  displayName: currentUser.displayName,    
+                  photoURL: currentUser.photoURL,   
+                  providerId: currentUser.providerId   
+                }).then(() => {
+                  this.userService.checkIsLogin();
+                  this.cancelModal();
+                }).catch(error => {
+                  console.log("provider first login:" + error);
+                });
+              } else {
+                this.userService.checkIsLogin();
+                this.viewCtrl.dismiss();
+              }
             });
-
-            this.viewCtrl.dismiss();  
           });
         }
         console.log(error.code);    
@@ -161,10 +185,15 @@ export class LoginPage {
         var credential = wilddog.auth.WeiboAuthProvider.credential(args.access_token, args.userid);
         
         wilddog.auth().signInWithCredential(credential).then((user) => {
-          users.child(user.uid).set({
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            providerId: user.providerId
+          let currentUserSync = users.child(user.uid);
+          currentUserSync.on("value").then(snapshot => {
+            if(!snapshot.exists()) {
+              currentUserSync.set({   
+                displayName: user.displayName,    
+                photoURL: user.photoURL,   
+                providerId: user.providerId   
+              });
+            }
           });
   
         }).catch((error) => {

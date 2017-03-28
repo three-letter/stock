@@ -26,8 +26,7 @@ export class MyPage {
   gotoMyProfile() {
 
     if(this.userService.authOrLogin()) {
-      if(this.userService.userInfo.providerId == null)
-        this.navCtrl.push(MyProfilePage);
+      this.navCtrl.push(MyProfilePage);
     }
   }
   
