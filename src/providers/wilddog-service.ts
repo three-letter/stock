@@ -21,7 +21,7 @@ export class WilddogService {
 
     wilddog.initializeApp(wdConfig);
     this.auth = wilddog.auth();
-    this.db = wilddog.sync().ref("/");
+    this.db = wilddog.sync();
   }
 
 }

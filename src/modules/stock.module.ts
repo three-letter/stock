@@ -49,6 +49,8 @@ export class StockModule {
       let code = stockPrice.code;
       let realRatio = parseFloat(stockPrice.ratio);
       let today = moment(stockPrice.time, "YYYYMMDDHHmmss").format("YYYYMMDD");
+      
+      console.log("stock price trogger:" + stockPrice.code + " " + stockPrice.ratio);
 
       // 根据用户的预测涨幅计算当前预测的准确率
       this.stockService.forecasts.orderByChild("stockCode").equalTo(code).on("value", snapshot => {
@@ -60,6 +62,8 @@ export class StockModule {
 
           let realForecastRatio = parseFloat(forecastInfo.realStockRatio);
           let syncRatio = this.stockService.calculateForecastRatio(realForecastRatio, realRatio);
+      
+          console.log("stock forecast trogger:" + forecastInfo.stockCode + " " + forecastInfo.realStockRatio + " " + code + " " + realRatio);
 
           let forecastAccurate = childSnapshot.exportVal();
           forecastAccurate.syncRatio = syncRatio;
