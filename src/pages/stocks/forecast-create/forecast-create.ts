@@ -5,6 +5,8 @@ import { UserService } from '../../../providers/user-service';
 import { StockService } from '../../../providers/stock-service';
 import { UtilityService } from '../../../providers/utility-service';
 
+import * as moment from 'moment';
+
 /*
   Generated class for the ForecastCreate page.
 
@@ -18,7 +20,7 @@ import { UtilityService } from '../../../providers/utility-service';
 export class ForecastCreatePage {
 	@ViewChild("stockCode") stockCodeInput: any;
 
-  public forecast: {uid?: string, stockSmallCode?: string, stockCode?: string, stockName?: string, stockTrend?: string, stockRatio?: string, reason?: string, stockCodeName?: string, date?: number} = {}
+  public forecast: {uid?: string, stockSmallCode?: string, stockCode?: string, stockName?: string, stockTrend?: string, stockRatio?: string, reason?: string, stockCodeName?: string, date?: string, realStockRatio?: number} = {}
   public _stocks: any;
 
   constructor(
@@ -38,11 +40,14 @@ export class ForecastCreatePage {
 	forecastCreateHandler(ngForm) {
 		if(this.userService.authOrLogin()) {
       this.utilityService.presentLoading();
-      let now = new Date();
-      now.setHours(0,0,0,0);
+
+      let now = moment().format("YYYYMMDD"); 
+      let trend = this.forecast.stockTrend;
+      let ratio = parseFloat(this.forecast.stockRatio);
 
 			this.forecast.uid = this.userService.auth.currentUser.uid;
-      this.forecast.date = now.getTime(); 
+      this.forecast.date = now;
+      this.forecast.realStockRatio = trend == "-" ? (0 - ratio) : ratio;
 
 			this.stockService.forecasts.push(this.forecast).then((newForecast) => {
         this.utilityService.dismissLoading();

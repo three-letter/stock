@@ -6,6 +6,8 @@ import { ForecastCreatePage } from '../pages/stocks/forecast-create/forecast-cre
 
 import { StockService } from '../providers/stock-service';
 
+import * as moment from 'moment';
+
 @NgModule({
   declarations: [
     SummaryPage,
@@ -24,7 +26,54 @@ import { StockService } from '../providers/stock-service';
 export class StockModule {
 
   constructor(
+    public stockService: StockService
   ) {
+      this.listenStockForecasts();
+      this.listenStockPrices();
+  }
+
+  listenStockForecasts() {
+    this.stockService.forecasts.on("child_added", (snapshot, prev) => {
+      let forecastInfo = snapshot.val();
+      let code = forecastInfo.stockCode;
+
+      this.stockService.syncStocks([code]).then(() => {
+      });
+    });
+  }
+
+  listenStockPrices() {
+    this.stockService.stockPrices.on("child_added", (snapshot, prev) => {
+      // 获取最新股票涨幅数据
+      let stockPrice = snapshot.exportVal();
+      let code = stockPrice.code;
+      let realRatio = parseFloat(stockPrice.ratio);
+      let today = moment(stockPrice.time, "YYYYMMDDHHmmss").format("YYYYMMDD");
+
+      // 根据用户的预测涨幅计算当前预测的准确率
+      this.stockService.forecasts.orderByChild("stockCode").equalTo(code).on("value", snapshot => {
+        snapshot.forEach(childSnapshot => {
+          let forecastInfo = childSnapshot.val();
+
+          if(forecastInfo.date != today)
+            return;
+
+          let realForecastRatio = parseFloat(forecastInfo.realStockRatio);
+          let syncRatio = this.stockService.calculateForecastRatio(realForecastRatio, realRatio);
+
+          let forecastAccurate = childSnapshot.exportVal();
+          forecastAccurate.syncRatio = syncRatio;
+          let key = forecastInfo.uid + forecastInfo.stockCode + today;
+
+          this.stockService.forecastAccurates.child(key).set(forecastAccurate).then(() => {
+          }).catch(error => {
+          });
+
+        });
+        console.log(snapshot.key()); 
+      });
+
+    });
   }
 
 
