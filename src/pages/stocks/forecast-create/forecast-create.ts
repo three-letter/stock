@@ -18,7 +18,7 @@ import { UtilityService } from '../../../providers/utility-service';
 export class ForecastCreatePage {
 	@ViewChild("stockCode") stockCodeInput: any;
 
-  public forecast: {uid?: string, stockCode?: string, stockName?: string, stockTrend?: string, stockRatio?: string, reason?: string, stockCodeName?: string, date?: number} = {}
+  public forecast: {uid?: string, stockSmallCode?: string, stockCode?: string, stockName?: string, stockTrend?: string, stockRatio?: string, reason?: string, stockCodeName?: string, date?: number} = {}
   public _stocks: any;
 
   constructor(
@@ -64,10 +64,11 @@ export class ForecastCreatePage {
   }
 
 	selectStock(item) {
-		this.forecast.stockCode = item.codeS;
+		console.log(item);
+		this.forecast.stockCode = item.code;
+		this.forecast.stockSmallCode = item.codeS;
 		this.forecast.stockName = item.name;
 		this.forecast.stockCodeName = item.codeName;
-		console.log(this.forecast);
 		this._stocks = [];
 	}
 
