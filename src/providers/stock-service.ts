@@ -85,7 +85,8 @@ export class StockService {
               high: codeInfos[33],
               low: codeInfos[34],
               ratio: this.calculateRatio(parseFloat(codeInfos[3]), parseFloat(codeInfos[4])),
-              time: codeInfos[30]
+              time: codeInfos[30],
+              date: codeInfos[30].slice(0,8)
             };
 
             let key = codeInfos[30].slice(0,8) + code;

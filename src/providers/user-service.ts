@@ -67,7 +67,6 @@ export class UserService {
   }
 
   authOrLogin() {
-    console.log("auth or login: " + this.isAuth);
     if(this.isAuth) {
       return true;
     } else {
