@@ -4,4 +4,14 @@ page-summary {
     height: 150px;
   }
 
+	.top-avatar {
+		width: 60px;
+		margin: auto;
+		border-radius: 50% 50% 50% 50%;
+
+		p {
+			margin: 5px;
+		}
+	}
+
 }
