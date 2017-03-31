@@ -97,7 +97,7 @@ export class StockService {
 
           }
         });
-
+        reslove(codes);
       });
     
     });

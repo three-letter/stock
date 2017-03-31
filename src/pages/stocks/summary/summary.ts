@@ -22,6 +22,7 @@ import * as moment from 'moment';
 export class SummaryPage {
   @ViewChild("summarySlides") slides: Slides;
   public topForecastAccurates: Object[] = [];
+  public stockIndexs: Object[] = [];
 
   constructor(
     public navCtrl: NavController, 
@@ -30,7 +31,8 @@ export class SummaryPage {
     public userService: UserService,
     public stockService: StockService
   ) {
-		this.fetchTopForecastAccurates();
+		this.fetchStockIndex();
+    this.fetchTopForecastAccurates();
   }
 
   ionViewDidEnter() {
@@ -44,13 +46,37 @@ export class SummaryPage {
     }
   }
 
+  fetchStockIndex() {
+    // 股指指数: 上证、深证、创业板
+    let stocks = ["sh000001", "sz399001", "sz399006"];
+    let today = moment().format("YYYYMMDD");
+
+    this.stockService.syncStocks(stocks).then((data) => {
+      this.stockIndexs = [];
+
+      stocks.forEach(stock => {
+        let key = today + stock;
+        this.stockService.stockPrices.child(key).once("value", snapshot => {
+          let stockPrice: Object = snapshot.val();
+          this.stockIndexs.push(stockPrice);
+        });
+      });
+    });
+
+  }
+
   fetchTopForecastAccurates() {
     let today = moment().format("YYYYMMDD");
 
-		this.stockService.forecastAccurates.orderByChild("date").equalTo(today).ref().orderByChild("syncRatio").limitToFirst(3).on("value", snapshot => {
+    this.stockService.forecastAccurates.orderByChild("syncRatio").limitToFirst(5).on("value", snapshot => {
+      this.topForecastAccurates= [];
+
 			snapshot.forEach(childSnapshot => {
 				let topForecastAccurate: {forecastAccurate?: Object, user?: Object} = {};
-console.log(childSnapshot.key());
+
+        if(childSnapshot.val().date != today)
+          return ;
+
 				topForecastAccurate.forecastAccurate = childSnapshot.val();
 
 				this.userService.users.child(childSnapshot.val().uid).once("value", snapshot => {

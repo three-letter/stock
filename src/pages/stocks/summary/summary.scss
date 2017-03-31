@@ -4,7 +4,24 @@ page-summary {
     height: 150px;
   }
 
-	.top-avatar {
+  .top-row {
+  } 
+
+  .top-col {
+    color: gray;
+    height: 80px;
+    background: #e1e1e1;
+    border: 1px white solid;
+
+    h5 {
+      margin: 5px;
+    }
+    p {
+      margin: 3px;
+    }
+  }
+
+  .top-avatar {
 		width: 60px;
 		margin: auto;
 		border-radius: 50% 50% 50% 50%;
