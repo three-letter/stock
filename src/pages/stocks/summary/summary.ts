@@ -3,7 +3,6 @@ import { Slides, NavController, NavParams, ModalController } from 'ionic-angular
 
 import { ForecastCreatePage } from '../forecast-create/forecast-create';
 
-
 import { UserService } from '../../../providers/user-service';
 import { StockService } from '../../../providers/stock-service';
 

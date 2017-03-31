@@ -140,6 +140,21 @@ export class StockService {
     return syncRatio;
   }
 
+  // helper method in html
+  // like model virtual attrubites
+
+  trend(stockPrice) {
+    let close = stockPrice.close;
+    let last = stockPrice.last;
+
+    return close > last ? 1 : (close == last ? 0 : -1);
+  }
+
+  trendColor(stockPrice) {
+    let trend = this.trend(stockPrice);
+    return trend > -1 ? (trend == 0 ? "gray" : "red") : "green"; 
+  }
+
 
 
 }
