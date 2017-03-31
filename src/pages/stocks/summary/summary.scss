@@ -1,5 +1,9 @@
 page-summary {
 
+	ion-content {
+    background: #e1e1e1 !important;
+	}
+
   ion-slides {
     height: 150px;
   }
@@ -10,8 +14,8 @@ page-summary {
   .top-col {
     color: gray;
     height: 80px;
-    background: #e1e1e1;
-    border: 1px white solid;
+    background: #fff;
+    border: 1px #e1e1e1 solid;
 
     h5 {
       margin: 5px;
@@ -32,25 +36,35 @@ page-summary {
 
   }
 
-  .top-avatar {
-		width: 60px;
-		margin: auto;
-		border-radius: 50% 50% 50% 50%;
-
-		p {
-			margin: 5px;
-		}
-	}
-
 	ion-card {
 		color: #222;
-		margin: 1px 0px !important;;
+		margin: 5px 0px !important;;
 		padding: 0px !important;;
 		width: 100% !important;
-		background: #e1e1e1 !important; 
+		background: #fff !important; 
+
+		ion-item {
+			border-top: 0.55px solid #c8c7cc !important;
+		}
+	
+		ion-avatar {
+		}
 
 		.card-title {
 			font-size: 1.2em;
 		}
+
+		.top-avatar {
+			width: 100% !important;
+			margin: auto;
+			img {
+				width: 50px !important;
+				height: 50px !important;
+				margin: auto;
+				border-radius: 50% 50% 50% 50%;
+			}
+		}
 	}
+
+
 }

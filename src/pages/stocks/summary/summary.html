@@ -24,7 +24,7 @@
 
   <ion-slides #summarySlides pager autoplay="3000" loop="true" speed="1000"> 
     <ion-slide *ngFor="let n of [1, 2, 3]">
-      <img src="./assets/slide/slide-{{n}}.jpg">
+			<img src="./assets/slide/slide-{{n}}.jpg">
     </ion-slide>
   </ion-slides>
 
@@ -42,8 +42,28 @@
 			<ion-col width-50 text-right>查看更多>> </ion-col>
 		</ion-row>
 
-		<ion-list *ngFor="let topForecast of topForecastAccurates">
+		<ion-list>
+			<ion-item *ngFor="let topForecast of topForecastAccurates">
+				<ion-row>
+					<ion-col width-30>
+						<ion-avatar item-left text-center class="top-avatar">
+							<img src="{{ topForecast.user.photoURL }}">
+							<p> {{ topForecast.user.displayName }}</p>
+						</ion-avatar>
+					</ion-col>
 
+					<ion-col width-40 text-center>
+						<h2> {{ topForecast.forecastAccurate.stockName }} </h2>
+						<p> {{ topForecast.forecastAccurate.stockSmallCode }} </p>
+					</ion-col>
+					
+					<ion-col width-30>
+					</ion-col>
+
+				</ion-row>
+
+
+			</ion-item>
 		</ion-list>
 
 	</ion-card>

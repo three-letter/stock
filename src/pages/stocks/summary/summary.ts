@@ -48,7 +48,7 @@ export class SummaryPage {
   fetchStockIndex() {
     // 股指指数: 上证、深证、创业板
     let stocks = ["sh000001", "sz399001", "sz399006"];
-    let today = moment().format("YYYYMMDD");
+    let today = this.stockService.getNowDate(); 
 
     this.stockService.syncStocks(stocks).then((data) => {
       this.stockIndexs = [];
@@ -65,7 +65,7 @@ export class SummaryPage {
   }
 
   fetchTopForecastAccurates() {
-    let today = moment().format("YYYYMMDD");
+    let today = this.stockService.getNowDate(); 
 
     this.stockService.forecastAccurates.orderByChild("syncRatio").limitToFirst(5).on("value", snapshot => {
       this.topForecastAccurates= [];

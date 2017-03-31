@@ -168,6 +168,16 @@ export class StockService {
 		return trend + ratio + "%";
 	}
 
+	getNowDate() {
+		let now = moment().toDate();
+		let openTime = moment().hours(9).minutes(15).toDate();
+		console.log(now + " " + openTime);
+		let date = now < openTime ? moment().add(-1, "days") : moment();
+		
+		console.log("get now date:" + date.format("YYYYMMDD"));
+
+		return date.format("YYYYMMDD");
+	}
 
 
 }
