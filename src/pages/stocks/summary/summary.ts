@@ -21,7 +21,7 @@ import * as moment from 'moment';
 })
 export class SummaryPage {
   @ViewChild("summarySlides") slides: Slides;
-  public topForecastAccurates: any = [];
+  public topForecastAccurates: Object[] = [];
 
   constructor(
     public navCtrl: NavController, 
@@ -30,11 +30,11 @@ export class SummaryPage {
     public userService: UserService,
     public stockService: StockService
   ) {
+		this.fetchTopForecastAccurates();
   }
 
   ionViewDidEnter() {
     this.slides.startAutoplay();
-    this.fetchTopForecastAccurate();
   }
 
   presentForecastCreateModal() {
@@ -44,21 +44,22 @@ export class SummaryPage {
     }
   }
 
-  fetchTopForecastAccurate() {
+  fetchTopForecastAccurates() {
     let today = moment().format("YYYYMMDD");
 
-    this.stockService.forecastAccurates.orderByChild("date").equalTo(today).ref().orderByChild("syncRatio").limitToFirst(3).on("value", snapshot => {
-      snapshot.forEach(childSnapshot => {
-        let topForecastAccurate: {forecastAccurate?: Object, user?: Object} = {};
+		this.stockService.forecastAccurates.orderByChild("date").equalTo(today).ref().orderByChild("syncRatio").limitToFirst(3).on("value", snapshot => {
+			snapshot.forEach(childSnapshot => {
+				let topForecastAccurate: {forecastAccurate?: Object, user?: Object} = {};
+console.log(childSnapshot.key());
+				topForecastAccurate.forecastAccurate = childSnapshot.val();
 
-        topForecastAccurate.forecastAccurate = childSnapshot.val();
-
-        this.userService.users.on("value", snapshot => {
-          topForecastAccurate.user = snapshot.val();
-          this.topForecastAccurates.push(topForecastAccurate);
-        });
-      });
-    }); 
+				this.userService.users.child(childSnapshot.val().uid).once("value", snapshot => {
+					topForecastAccurate.user = snapshot.val();
+					this.topForecastAccurates.push(topForecastAccurate);
+				});
+			});
+		}); 
+		
   }
 
 }

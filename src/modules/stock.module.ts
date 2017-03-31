@@ -33,7 +33,10 @@ export class StockModule {
   }
 
   listenStockForecasts() {
-    this.stockService.forecasts.on("child_added", (snapshot, prev) => {
+		let now = moment().format("YYYYMMDD");
+
+    this.stockService.forecasts.orderByChild("date").equalTo(now).on("child_added", (snapshot, prev) => {
+     
       let forecastInfo = snapshot.val();
       let code = forecastInfo.stockCode;
 
@@ -43,10 +46,11 @@ export class StockModule {
   }
 
   listenStockPrices() {
-    let now = moment().format("YYYYMMDD");
+		let now = moment().format("YYYYMMDD");
 
     this.stockService.stockPrices.orderByChild("date").equalTo(now).on("child_added", (snapshot, prev) => {
-      // 获取最新股票涨幅数据
+      
+			// 获取最新股票涨幅数据
       let stockPrice = snapshot.exportVal();
       let code = stockPrice.code;
       let realRatio = parseFloat(stockPrice.ratio);
