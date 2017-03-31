@@ -42,4 +42,15 @@ page-summary {
 		}
 	}
 
+	ion-card {
+		color: #222;
+		margin: 1px 0px !important;;
+		padding: 0px !important;;
+		width: 100% !important;
+		background: #e1e1e1 !important; 
+
+		.card-title {
+			font-size: 1.2em;
+		}
+	}
 }

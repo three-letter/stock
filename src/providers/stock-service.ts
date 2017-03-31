@@ -147,13 +147,26 @@ export class StockService {
     let close = stockPrice.close;
     let last = stockPrice.last;
 
-    return close > last ? 1 : (close == last ? 0 : -1);
+    return close > last ? "+" : (close == last ? "" : "-");
   }
 
   trendColor(stockPrice) {
     let trend = this.trend(stockPrice);
-    return trend > -1 ? (trend == 0 ? "gray" : "red") : "green"; 
+    return trend == "-" ? "green" : (trend == "" ? "gray" : "red"); 
   }
+
+	trendRange(stockPrice) {
+		let trend = this.trend(stockPrice);
+		let range = stockPrice.close - stockPrice.last;
+		return trend + range.toFixed(2);
+	}
+
+	trendRatio(stockPrice) {
+		let trend = this.trend(stockPrice);
+		let ratio = this.calculateRatio(stockPrice.close, stockPrice.last);
+		ratio = ratio / 100;
+		return trend + ratio + "%";
+	}
 
 
 
