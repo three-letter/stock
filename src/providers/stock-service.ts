@@ -70,6 +70,8 @@ export class StockService {
     return new Promise((reslove, reject) => {
     
       this.getScript(url).then(() => {
+        let result = [];
+
         codes.forEach(code => {
           let codeInfoKey = "v_" + code;
           let codeInfo = (<any>window)[codeInfoKey];
@@ -89,6 +91,8 @@ export class StockService {
 							date: codeInfos[30].slice(0, 8)
             };
 
+            result.push(stockInfo);
+
             let key = codeInfos[30].slice(0,8) + code;
             this.stockPrices.child(key).set(stockInfo).then(() => {
             }).catch(error => {
@@ -97,7 +101,7 @@ export class StockService {
 
           }
         });
-        reslove(codes);
+        reslove(result);
       });
     
     });
@@ -143,41 +147,28 @@ export class StockService {
   // helper method in html
   // like model virtual attrubites
 
-  trend(stockPrice) {
-    let close = stockPrice.close;
-    let last = stockPrice.last;
-
+  trend(close, last) {
     return close > last ? "+" : (close == last ? "" : "-");
   }
 
-  trendColor(stockPrice) {
-    let trend = this.trend(stockPrice);
+  trendColor(close, last) {
+    let trend = this.trend(close, last);
     return trend == "-" ? "green" : (trend == "" ? "gray" : "red"); 
   }
 
-	trendRange(stockPrice) {
-		let trend = this.trend(stockPrice);
-		let range = stockPrice.close - stockPrice.last;
-		return trend + range.toFixed(2);
+	trendRange(close, last) {
+		let trend = this.trend(close, last);
+		let range = close - last;
+		return trend + Math.abs(range).toFixed(2);
 	}
 
-	trendRatio(stockPrice) {
-		let trend = this.trend(stockPrice);
-		let ratio = this.calculateRatio(stockPrice.close, stockPrice.last);
+	trendRatio(close, last) {
+		let trend = this.trend(close, last);
+		let ratio = this.calculateRatio(close, last);
 		ratio = ratio / 100;
-		return trend + ratio + "%";
+		return trend + Math.abs(ratio).toFixed(2) + "%";
 	}
 
-	getNowDate() {
-		let now = moment().toDate();
-		let openTime = moment().hours(9).minutes(15).toDate();
-		console.log(now + " " + openTime);
-		let date = now < openTime ? moment().add(-1, "days") : moment();
-		
-		console.log("get now date:" + date.format("YYYYMMDD"));
-
-		return date.format("YYYYMMDD");
-	}
 
 
 }

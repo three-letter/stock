@@ -30,9 +30,9 @@
 
   <ion-row class="top-row">
     <ion-col class="top-col" text-center *ngFor="let stockIndex of stockIndexs">
-      <h5> {{ stockIndex.name }} </h5>
-      <p class="trend-{{ stockService.trendColor(stockIndex) }}"> {{ stockIndex.close }} </p>
-			<p class="trend-{{ stockService.trendColor(stockIndex) }}"> {{ stockService.trendRange(stockIndex) }} {{ stockService.trendRatio(stockIndex) }} </p>
+    <h5> {{ stockIndex.name }} </h5>
+      <p class="trend-{{ stockService.trendColor(stockIndex.close, stockIndex.last) }}"> {{ stockIndex.close }} </p>
+			<p class="trend-{{ stockService.trendColor(stockIndex.close, stockIndex.last) }}"> {{ stockService.trendRange(stockIndex.close, stockIndex.last) }} {{ stockService.trendRatio(stockIndex.close, stockIndex.last) }} </p>
     </ion-col>
   </ion-row>
 
@@ -43,21 +43,45 @@
 		</ion-row>
 
 		<ion-list>
-			<ion-item *ngFor="let topForecast of topForecastAccurates">
+			<ion-item *ngFor="let topForecast of topForecastAccurates" text-wrap>
 				<ion-row>
-					<ion-col width-30>
+					<ion-col width-20>
 						<ion-avatar item-left text-center class="top-avatar">
 							<img src="{{ topForecast.user.photoURL }}">
 							<p> {{ topForecast.user.displayName }}</p>
 						</ion-avatar>
 					</ion-col>
 
-					<ion-col width-40 text-center>
+					<ion-col text-center width-60>
 						<h2> {{ topForecast.forecastAccurate.stockName }} </h2>
-						<p> {{ topForecast.forecastAccurate.stockSmallCode }} </p>
+            <p> {{ topForecast.forecastAccurate.stockSmallCode }} </p>
+            <span left> {{ topForecast.stock.close }} </span>
+            <span right class="trend-{{ stockService.trendColor(topForecast.stock.close, topForecast.stock.last) }}"> {{ stockService.trendRatio(topForecast.stock.close, topForecast.stock.last) }} </span>
+
+            <p *ngIf=" topForecast.stock.close > 10 " class="quote">
+              <ion-icon name="quote"></ion-icon>
+              这家伙什么也没有说...
+            </p>
+            <p *ngIf=" topForecast.stock.close < 10 " class="quote">
+              <ion-icon name="quote"></ion-icon>
+              不想说，不想说，不想说，不想说，不想说，就是不想说...
+            </p>
 					</ion-col>
 					
-					<ion-col width-30>
+          <ion-col text-center width-20 >
+            <span>准确度</span>
+            <h3> {{ topForecast.forecastAccurate.syncRatio / 100 }}% </h3>  
+            <span> {{ topForecast.forecastAccurate.realStockRatio / 100 }}%  </span>
+            <p class="forecast-star" *ngIf=" topForecast.forecastAccurate.syncRatio / 100 < 2 ">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+            </p>
+            <p class="forecast-star" *ngIf=" topForecast.forecastAccurate.syncRatio / 100 > 2  ">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star-half"></ion-icon>
+            </p>
 					</ion-col>
 
 				</ion-row>
