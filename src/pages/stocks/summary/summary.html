@@ -70,7 +70,7 @@
 					
           <ion-col text-center width-20 >
             <span>准确度</span>
-            <h3> {{ topForecast.forecastAccurate.syncRatio / 100 }}% </h3>  
+            <h3> {{ stockService.trendAccuracy(topForecast.forecastAccurate.syncRatio) }}% </h3>  
             <span> {{ topForecast.forecastAccurate.realStockRatio / 100 }}%  </span>
             <p class="forecast-star" *ngIf=" topForecast.forecastAccurate.syncRatio / 100 < 2 ">
               <ion-icon name="star"></ion-icon>

@@ -76,27 +76,34 @@ export class SummaryPage {
     // 目前只能通过指数信息来获取日期(TODO: 获取当前开市日期)
     this.stockService.syncStocks(["sh000001"]).then((markDate) => {
     
-      let today = markDate[0].date; 
+      let today = "20170331"; //markDate[0].date; 
 
-      this.stockService.forecastAccurates.orderByChild("syncRatio").limitToFirst(5).on("value", snapshot => {
+      //this.stockService.forecastAccurates.orderByChild("syncRatio").limitToFirst(5).on("value", snapshot => {
+      this.stockService.forecastAccurates.orderByChild("date").equalTo(today).on("value", snapshot => {
         this.topForecastAccurates= [];
 
-			  snapshot.forEach(childSnapshot => {
+        // sort snapshot asc order to get top forecast
+        let snapshot_arrs = snapshot.exportVal();
+        let sort_keys = Object.keys(snapshot_arrs).sort((s1, s2) => snapshot_arrs[s1].syncRatio - snapshot_arrs[s2].syncRatio);
+        let limit_snapshot = [];
+        sort_keys.slice(0, 5).forEach(snapsho_key => {
+          limit_snapshot.push(snapshot_arrs[snapsho_key]);
+        });
+
+			  limit_snapshot.forEach(childSnapshot => {
 				  let topForecastAccurate: {forecastAccurate?: Object, user?: Object, stock?: Object} = {};
 
-          if(childSnapshot.val().date != today)
-            return ;
+				  topForecastAccurate.forecastAccurate = childSnapshot;
 
-				  topForecastAccurate.forecastAccurate = childSnapshot.val();
-
-				  this.userService.users.child(childSnapshot.val().uid).once("value", userSnapshot => {
+				  this.userService.users.child(childSnapshot.uid).once("value", userSnapshot => {
 					  topForecastAccurate.user = userSnapshot.val();
 				    
-            this.stockService.stockPrices.child(today + childSnapshot.val().stockCode).once("value", stockSnapshot => {
+            this.stockService.stockPrices.child(today + childSnapshot.stockCode).once("value", stockSnapshot => {
 					    topForecastAccurate.stock = stockSnapshot.val();
 					    this.topForecastAccurates.push(topForecastAccurate);
+
+              this.topForecastAccurates.sort((t1, t2) => t1["forecastAccurate"]["syncRatio"] - t2["forecastAccurate"]["syncRatio"]);
 			      });
-					  //this.topForecastAccurates.push(topForecastAccurate);
 			    });
 			  });
 

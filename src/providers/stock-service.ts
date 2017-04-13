@@ -169,6 +169,12 @@ export class StockService {
 		return trend + Math.abs(ratio).toFixed(2) + "%";
 	}
 
+  trendAccuracy(syncRatio) {
+    let range = 20 * 100; // srock float range from -10% to 10%
+    let accuracy = (range - syncRatio) * 100 / range;
+    return accuracy.toFixed(1);
+  }
+
 
 
 }
