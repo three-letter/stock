@@ -76,12 +76,14 @@ export class SummaryPage {
     // 目前只能通过指数信息来获取日期(TODO: 获取当前开市日期)
     this.stockService.syncStocks(["sh000001"]).then((markDate) => {
     
-      let today = "20170331"; //markDate[0].date; 
+      let today = markDate[0].date; 
 
       //this.stockService.forecastAccurates.orderByChild("syncRatio").limitToFirst(5).on("value", snapshot => {
       this.stockService.forecastAccurates.orderByChild("date").equalTo(today).on("value", snapshot => {
         this.topForecastAccurates= [];
-
+        
+        if(snapshot.exportVal() == null)
+          return;
         // sort snapshot asc order to get top forecast
         let snapshot_arrs = snapshot.exportVal();
         let sort_keys = Object.keys(snapshot_arrs).sort((s1, s2) => snapshot_arrs[s1].syncRatio - snapshot_arrs[s2].syncRatio);
